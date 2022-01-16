@@ -5,9 +5,13 @@ router.get("/", (req, res) => {
   console.log("songs 1");
   res.send("songs 1");
 });
-router.get("/getAll", (req, res) => {
-  console.log("songs");
-  res.send("songs");
+router.get("/songs2", (req, res) => {
+  console.log("songs 2");
+  res.send("songs 2");
+});
+router.post("/", (req, res) => {
+  console.log(req.body);
+  res.send("arrived");
 });
 
 module.exports = router;
