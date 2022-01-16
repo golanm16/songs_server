@@ -21,3 +21,9 @@ connectDB().then(() => {
 });
 
 app.use("/songs", songsRoute);
+
+//Example
+app.get("/app", (req, res) => {
+  console.log("by app");
+  res.send("by app");
+});
