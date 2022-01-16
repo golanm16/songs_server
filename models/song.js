@@ -6,7 +6,6 @@ const songSchema = new mongoose.Schema({
   createdBy: {
     type: mongoose.SchemaTypes.ObjectId,
     ref: "user",
-    required: true,
   },
   provider: { type: String },
 });

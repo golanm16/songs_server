@@ -3,10 +3,6 @@ const { appendFile } = require("fs");
 const router = express.Router();
 const Song = require("../models/song.js");
 
-router.get("/", (req, res) => {
-  console.log("songs 1");
-  res.send("songs 1");
-});
 router.get("/songs2", async (req, res) => {
   console.log("songs 2");
   res.send("songs 2");
