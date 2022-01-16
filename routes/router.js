@@ -1,2 +1,3 @@
 const songsRoute = require("./songs");
-module.exports = { songsRoute };
+const usersRoute = require("./users");
+module.exports = { songsRoute, usersRoute };

@@ -3,7 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const { connectDB } = require("./models/index.js");
-const { songsRoute } = require("./routes/router.js");
+const { songsRoute, usersRoute } = require("./routes/router.js");
 
 const app = express();
 
@@ -21,6 +21,7 @@ connectDB().then(() => {
 });
 
 app.use("/songs", songsRoute);
+app.use("/users", usersRoute);
 
 //Example
 app.get("/app", (req, res) => {

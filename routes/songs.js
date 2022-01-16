@@ -1,7 +1,7 @@
 const express = require("express");
 const { appendFile } = require("fs");
 const router = express.Router();
-const Song = require("../models/song.js");
+const Song = require("../models/Song.js");
 
 router.get("/songs2", async (req, res) => {
   console.log("songs 2");
