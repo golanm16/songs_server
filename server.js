@@ -3,6 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const { connectDB } = require("./models/index.js");
+const { songsRoute } = require("./routes/router.js");
 
 const app = express();
 
@@ -18,3 +19,5 @@ app.listen(port, () => {
 connectDB().then(() => {
   console.log("connected to DB successfuly");
 });
+
+app.use("/songs", songsRoute);
