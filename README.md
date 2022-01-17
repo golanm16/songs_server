@@ -113,4 +113,28 @@ and the hashedPassword is stored in our database and not the real password
 const match = await bcrypt.compare(password, hashedPassword);
 ```
 
-and then match=true if the password the user gave me matches the hashed password in our database
+and then match===true if the password the user gave me matches the hashed password in our database
+
+## JsonWebToken
+
+we don't want the user to send his password every time he reload the page<br>
+so, we still want to recognize him somehow.<br>
+
+this is what a web token came to solve.
+
+```
+npm i jsonwebtoken
+```
+
+the server takes the user details, and encrypts them with a key that **only the server** knows, not even the user can decrypt it.
+
+```js
+// import the module
+const jwt = require("jsonwebtoken");
+
+// generate an access token using jwt
+const accessToken = jwt.sign(JSON.stringify(user), process.env.TOKEN_SECRET);
+res.json(accessToken);
+```
+
+the encryption key in the code is `process.env.TOKEN_SECRET` and with it the encryption can be broken
