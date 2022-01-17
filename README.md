@@ -134,7 +134,14 @@ const jwt = require("jsonwebtoken");
 
 // generate an access token using jwt
 const accessToken = jwt.sign(JSON.stringify(user), process.env.TOKEN_SECRET);
+
+// send the access token to the user
 res.json(accessToken);
 ```
 
-the encryption key in the code is `process.env.TOKEN_SECRET` and with it the encryption can be broken
+the encryption key in the code is `process.env.TOKEN_SECRET` and only with it the encryption can be opened.
+
+the access token is an alternative to send a password every time,<br>
+the server assign a token for each user logged in and when the user refresh the page, the browser needs only to send the token.
+
+sending the access token to the server can be done automatically, without the user intervention.
