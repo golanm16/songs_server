@@ -38,7 +38,7 @@ process.env.MY_VAR;
 
 ## Router
 
-to split the files for every route we need to use the built-in Router of express
+to split the files for every route, we need to use the built-in Router of express
 likes this in the [file](./routes/songs.js) of your route (ex.:"./routes/songs.js"):
 
 ```js
@@ -79,3 +79,38 @@ app.use("/users", usersRoute);
 ```
 
 and the every request that our server gets and have /songs/something, gets handled by the [songs.js](./routes/songs.js) file
+
+## Hashing using bcypt
+
+to secure our users' password we don't want to store the password as a simple text.<br>
+we want to [hash](https://en.wikipedia.org/wiki/Hash_function) the password.<br>
+
+an easy tool for nodejs is bcrypt. first install bcrypt.
+
+```
+npm i bcrypt
+```
+
+### hash
+
+and then lets see an example of how to use it.
+in my code it can be found in [this file](./routes/users.js)
+
+```js
+// import bcrypt
+const bcrypt = require("bcrypt");
+
+// remember: must be in an async function
+const hashedPassword = await bcrypt.hash(password, 10);
+```
+
+and the hashedPassword is stored in our database and not the real password
+
+### compare
+
+```js
+// must be in an async function
+const match = await bcrypt.compare(hashedPassword, password);
+```
+
+and then match=true if the password the user gave me matches the hashed password in our database
