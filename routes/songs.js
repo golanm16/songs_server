@@ -25,7 +25,6 @@ router.delete("/:title", async (req, res) => {
     return res.status(400);
   }
   if (req.user.userName === song.user) {
-    console.log("equals");
     const deletedSong = await Song.deleteOne(song);
     return res.send(deletedSong);
   }

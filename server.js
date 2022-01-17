@@ -2,7 +2,8 @@ require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const { connectDB } = require("./models/index.js");
+const { connectDB, models } = require("./models/index.js");
+const { Song, User, PLaylist } = models;
 const { songsRoute, usersRoute } = require("./routes/router.js");
 const jwt = require("jsonwebtoken");
 
@@ -16,11 +17,10 @@ const authJWT = (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (authHeader) {
     const token = authHeader.split(" ")[1];
-    console.log(token);
     jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
       if (err) {
         console.log(err);
-        return res.sendStatus(403);
+        return res.sendStatus(403); //403 == forbidden
       }
       console.log(user);
       req.user = user;
