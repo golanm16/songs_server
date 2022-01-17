@@ -145,3 +145,51 @@ the access token is an alternative to send a password every time,<br>
 the server assign a token for each user logged in and when the user refresh the page, the browser needs only to send the token.
 
 sending the access token to the server can be done automatically, without the user intervention.
+
+after the user logged in, all we need is the token.<br> so, we will make a function that confirms that the user is the one logged in by using the token
+
+in our main [server file](./server.js)
+
+```js
+const authJWT = (req, res, next) => {
+  // the authorization loks like "barrier <token>"
+  const authHeader = req.headers.authorization;
+
+  if (authHeader) {
+    // get only the <token>
+    const token = authHeader.split("")[1];
+
+    // verify the given token (decrypt) with the secret saved in the server
+    jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
+      if (err) {
+        return res.sendStatus(403);
+      }
+
+      // add the user to the req. user is already verified.
+      req.user = user;
+
+      //
+      next();
+    });
+  } else {
+    return res.sendStatus(401);
+  }
+};
+```
+
+the idea:<br>
+this function verifies the user with the users' `token` and my `TOKEN_SECRET`.<br>
+and the rest of the server is using the user as a simple, unencrypted user.
+
+in the defining of routes in the main server file to add my middleware:<br>
+`app.use("/songs", songsRoute);`->`app.use("/songs", authJWT, songsRoute);`
+
+and in the server request we need to send the server the token as a header like so:
+<img src="./assets/Capture_auth.PNG" alt="add auth to header screenshot">
+
+and in the regular path, for example in delete, to check the user we just need to do
+
+```js
+// userName is how i named it, noam named it diferrently
+if (req.user.userName === song.user)
+```

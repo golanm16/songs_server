@@ -15,15 +15,19 @@ app.use(cors());
 const authJWT = (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (authHeader) {
-    const token = authHeader.split("")[1];
+    const token = authHeader.split(" ")[1];
+    console.log(token);
     jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
       if (err) {
+        console.log(err);
         return res.sendStatus(403);
       }
+      console.log(user);
       req.user = user;
       next();
     });
   } else {
+    console.log("no authHeader");
     return res.sendStatus(401);
   }
 };
@@ -37,7 +41,7 @@ connectDB().then(() => {
   console.log("connected to DB successfuly");
 });
 
-app.use("/songs", songsRoute);
+app.use("/songs", authJWT, songsRoute);
 app.use("/users", usersRoute);
 
 //Example

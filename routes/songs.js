@@ -16,5 +16,21 @@ router.get("/", async (req, res) => {
   let songsList = await Song.find({});
   res.send(songsList);
 });
+router.delete("/:title", async (req, res) => {
+  console.log("deleting");
+  let song = await Song.findOne({ title: req.params.title });
+  console.log(song);
+  if (!song) {
+    console.log("not song");
+    return res.status(400);
+  }
+  if (req.user.userName === song.user) {
+    console.log("equals");
+    const deletedSong = await Song.deleteOne(song);
+    return res.send(deletedSong);
+  }
+  console.log("end");
+  return res.status(401);
+});
 
 module.exports = router;
