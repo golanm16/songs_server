@@ -110,7 +110,7 @@ and the hashedPassword is stored in our database and not the real password
 
 ```js
 // must be in an async function
-const match = await bcrypt.compare(hashedPassword, password);
+const match = await bcrypt.compare(password, hashedPassword);
 ```
 
 and then match=true if the password the user gave me matches the hashed password in our database
