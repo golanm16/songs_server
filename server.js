@@ -3,8 +3,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const { connectDB, models } = require("./models/index.js");
-const { Song, User, PLaylist } = models;
-const { songsRoute, usersRoute } = require("./routes/router.js");
+const { Song, User, Playlist } = models;
+const { songsRoute, usersRoute, ytSearchRoute } = require("./routes/router.js");
 const jwt = require("jsonwebtoken");
 
 const app = express();
@@ -43,6 +43,7 @@ connectDB().then(() => {
 
 app.use("/songs", authJWT, songsRoute);
 app.use("/users", usersRoute);
+app.use("/ytsearch", ytSearchRoute);
 
 //Example
 app.get("/app", (req, res) => {

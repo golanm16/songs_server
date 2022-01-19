@@ -1,4 +1,5 @@
 const songsRoute = require("./songs");
 const usersRoute = require("./users");
 const playlistRoute = require("./playlists.js");
-module.exports = { songsRoute, usersRoute, playlistRoute };
+const ytSearchRoute = require("./ytSearch.js");
+module.exports = { songsRoute, usersRoute, playlistRoute, ytSearchRoute };
