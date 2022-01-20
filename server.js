@@ -22,7 +22,7 @@ const authJWT = (req, res, next) => {
         console.log(err);
         return res.sendStatus(403); //403 == forbidden
       }
-      console.log(user);
+      console.log(`user authorized: ${user.userName}`);
       req.user = user;
       next();
     });
@@ -33,9 +33,6 @@ const authJWT = (req, res, next) => {
 };
 
 const port = process.env.PORT || 1251;
-app.listen(port, () => {
-  console.log(`listening on port ${port}`);
-});
 
 connectDB().then(() => {
   console.log("connected to DB successfuly");
@@ -46,7 +43,11 @@ app.use("/users", usersRoute);
 app.use("/ytsearch", ytSearchRoute);
 
 //Example
-app.get("/app", (req, res) => {
-  console.log("by app");
-  res.send("by app");
+app.get("/", (req, res) => {
+  console.log("sent 404");
+  res.send("not found");
+});
+
+app.listen(port, () => {
+  console.log(`listening on port ${port}`);
 });

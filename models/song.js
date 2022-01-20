@@ -4,12 +4,12 @@ const songSchema = new mongoose.Schema({
   title: { type: String, required: true },
   artist: { type: String, required: true },
   src: { type: String, required: true },
-  user: { type: String, required: true },
   createdBy: {
     type: mongoose.SchemaTypes.ObjectId,
-    ref: "user",
-    // required: true,
+    ref: "User",
+    required: true,
   },
+  id: { type: Number, required: true },
   provider: { type: String },
 });
 
