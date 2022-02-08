@@ -2,30 +2,37 @@ const express = require("express");
 const router = express.Router();
 const Song = require("../models/Song.js");
 
+const addSong = async (src, title, artist, provider, userId) => {
+  const song = await Song.findOne({ src });
+  return (
+    song ||
+    (await new Song({
+      title,
+      artist,
+      src,
+      createdBy: userId,
+      provider,
+    }).save())
+  );
+};
+
 router.post("/", async (req, res) => {
   try {
-    const song = await Song.findOne({ src: req.body.src });
-    if (song) {
-      console.log(`song ${song.src} already exists`);
-      res.status(500).json({ message: "song already exists" });
-      return;
-    }
-    let newSong = await new Song({
-      title: req.body.title,
-      artist: req.body.artist,
-      src: req.body.src,
-      createdBy: req.user._id,
-      id: req.body.id,
-      provider: req.body.provider,
-    }).save();
-    res.send(newSong);
+    const song = addSong(
+      req.body.src,
+      req.body.title,
+      req.body.artist,
+      req.body.provider,
+      req.user._id
+    );
+    res.send(song);
   } catch (e) {
     console.log(e);
   }
 });
 router.get("/", async (req, res) => {
   console.log("getting songs of " + req.user.userName);
-  let songsList = await Song.find({ createdBy: req.user._id });
+  let songsList = await Song.find({});
   res.send(songsList);
 });
 router.delete("/:id", async (req, res) => {

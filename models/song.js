@@ -9,7 +9,6 @@ const songSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-  id: { type: Number, required: true },
   provider: { type: String },
 });
 

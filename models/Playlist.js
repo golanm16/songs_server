@@ -3,8 +3,12 @@ const mongoose = require("mongoose");
 const playlistSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
-    songs: { type: Array },
-    createdBy: { type: mongoose.SchemaTypes.ObjectId },
+    songs: [{ type: mongoose.SchemaTypes.ObjectId, ref: "Song" }],
+    createdBy: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
   { timestamps: true }
 );

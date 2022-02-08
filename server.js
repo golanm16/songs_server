@@ -2,9 +2,13 @@ require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const { connectDB, models } = require("./models/index.js");
-const { Song, User, Playlist } = models;
-const { songsRoute, usersRoute, ytSearchRoute } = require("./routes/router.js");
+const { connectDB } = require("./models/index.js");
+const {
+  songsRoute,
+  usersRoute,
+  ytSearchRoute,
+  playlistRoute,
+} = require("./routes/router.js");
 const jwt = require("jsonwebtoken");
 
 const app = express();
@@ -41,12 +45,7 @@ connectDB().then(() => {
 app.use("/songs", authJWT, songsRoute);
 app.use("/users", usersRoute);
 app.use("/ytsearch", ytSearchRoute);
-
-//Example
-app.get("/", (req, res) => {
-  console.log("sent 404");
-  res.send("not found");
-});
+app.use("/playlist", authJWT, playlistRoute);
 
 app.listen(port, () => {
   console.log(`listening on port ${port}`);
