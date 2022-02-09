@@ -18,8 +18,9 @@ router.post("/create", async (req, res) => {
 
 router.post("/addsong", async (req, res) => {
   console.log("adding song to playlist");
+  console.log(req.body);
   try {
-    let song = await Song.findOne({ _id: req.body.songId });
+    let song = await Song.findOne({ src: req.body.songId });
     if (!song) {
       res.status(404).json({ message: "song does not exists" });
       return;

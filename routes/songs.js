@@ -1,8 +1,12 @@
 const express = require("express");
+const { Error } = require("mongoose");
 const router = express.Router();
 const Song = require("../models/Song.js");
 
 const addSong = async (src, title, artist, provider, userId) => {
+  if (!src) {
+    throw new Error("song must have source link");
+  }
   const song = await Song.findOne({ src });
   return (
     song ||
@@ -18,7 +22,7 @@ const addSong = async (src, title, artist, provider, userId) => {
 
 router.post("/", async (req, res) => {
   try {
-    const song = addSong(
+    const song = await addSong(
       req.body.src,
       req.body.title,
       req.body.artist,
@@ -28,6 +32,7 @@ router.post("/", async (req, res) => {
     res.send(song);
   } catch (e) {
     console.log(e);
+    res.status(500).json({ message: e });
   }
 });
 router.get("/", async (req, res) => {
