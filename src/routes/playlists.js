@@ -30,6 +30,12 @@ router.post("/addsong", async (req, res) => {
       res.status(404).json({ message: "playlist does not exists" });
       return;
     }
+    if (playlist.songs.includes(song._id)) {
+      res
+        .status(400)
+        .json({ message: `song already exists in playlist ${playlist.name}` });
+      return;
+    }
     await playlist.songs.push(song._id);
     await playlist.save();
     res.status(200).json(playlist);
@@ -52,7 +58,9 @@ router.get("/all", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const playlist = await Playlist.findOne({ _id: req.params.id });
-
+    if (!playlist) {
+      res.status(404).json({ message: "not found" });
+    }
     const songs = await playlist.populate("songs");
     res.status(200).json(songs);
   } catch (e) {

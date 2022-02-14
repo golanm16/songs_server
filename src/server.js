@@ -15,7 +15,12 @@ const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost/", "http://127.0.0.1/"],
+    credentials: true,
+  })
+);
 
 const authJWT = (req, res, next) => {
   const authHeader = req.headers.authorization;
